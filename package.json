@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/enochpark89/2021_typescript_blockchain#readme",
   "dependencies": {
+    "crypto-js": "^4.0.0",
     "tsc-watch": "^4.2.9",
     "typescript": "^4.2.4"
   }

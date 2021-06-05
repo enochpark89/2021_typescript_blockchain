@@ -170,3 +170,74 @@ let blockchain: [Block] = [genesisBlock];
 
 console.log(blockchain);
 ```
+
+## 1.4 Create Block pt.2
+
+-  To create a block, you need to calculate a hash. Hash combines all the properties into a complicated algorithm.
+   Steps:
+
+1. Run _npm install cryptojs_
+1. import CryptoJs.
+
+```
+import * as CryptoJS from "crypto-js";
+```
+
+2. Create a method called CalculateHash.
+3. This is a method that is in the class block. Therefore, the method can only be called only after the block is created.
+4. Calculat block hash can be created using the cryptoJS.
+
+```ts
+
+// Using combination of four variables, it can create a complicated hash.
+  static calculateBlockHash = (
+    index: number,
+    previousHash: string,
+    timestamp: number,
+    data: string
+  ): string =>
+  CryptoJS.SHA256(index + previousHash+ timestamp +data).toString();
+```
+
+5. Block.caculateBlockHash() works.
+6. Create three functions (getBlockchain, getLatestBlock, getNewTimeStamp)
+
+```ts
+// create a variable of Block array.
+const getBlockchain = (): Block[] => blockchain;
+
+// give the latest block.
+const getLatestBlock = (): Block => blockchain[blockchain.length - 1];
+
+const getNewTimeStamp = (): number => Math.round(new Date().getTime() / 1000);
+```
+
+7. Create a createNewBlock function
+
+-  this creatNewBlock takes one string element and it will be used to create the hash along with other 3 variables that are retrieved from the previous block and the system.
+
+```ts
+const createNewBlock = (data: string): Block => {
+   const previousBlock: Block = getLatestBlock();
+   const newIndex: number = previousBlock.index + 1;
+   const newTimestamp: number = getNewTimeStamp();
+   const newHash: string = Block.calculateBlockHash(
+      newIndex,
+      previousBlock.hash,
+      newTimestamp,
+      data
+   );
+   const newBlock: Block = new Block(
+      newIndex,
+      newHash,
+      previousBlock.hash,
+      data,
+      newTimestamp
+   );
+   return newBlock;
+};
+```
+
+8. Create a new function called _isBlockValid_ to validate the block.
+
+-
