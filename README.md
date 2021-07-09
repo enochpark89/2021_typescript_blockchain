@@ -240,4 +240,16 @@ const createNewBlock = (data: string): Block => {
 
 8. Create a new function called _isBlockValid_ to validate the block.
 
--
+9. Get the hash for the block.
+
+**Conclusions:**
+
+1. Import CryptoJs to create your Block prototype
+2. Create a class Block that has four variables.
+   a. index
+   b. previousHash
+   c. timestamp
+   d. data.
+   _Because of the TypeScript and the predictive arguments and returns, it makes easy to validate._
+
+3. 

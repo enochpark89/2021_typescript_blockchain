@@ -17,17 +17,11 @@ class Block {
   typeof aBlock.timestamp === "number" &&
   typeof aBlock.data === "string";
 
-
   public index: number;
   public hash: string;
   public previousHash: string;
   public data: string;
   public timestamp: number;
-
-
-
-
-
 
   constructor(
     index: number,
@@ -64,18 +58,45 @@ const createNewBlock = (data:string): Block => {
   const newTimestamp : number = getNewTimeStamp();
   const newHash : string = Block.calculateBlockHash(newIndex, previousBlock.hash, newTimestamp, data);
   const newBlock : Block = new Block(newIndex, newHash, previousBlock.hash, data, newTimestamp);
+  addBlock(newBlock);
   return newBlock;
 }
 
+const getHashforBlock = (aBlock: Block): string =>
+  Block.calculateBlockHash(
+    aBlock.index,
+    aBlock.previousHash,
+    aBlock.timestamp,
+    aBlock.data
+  );
+
+
 // Check Block for validity.
-const isBlockValid = (candidateBlock : Block, previousBlock: Block) : boolean => {
-  if (!Block.validateStructure(candidateBlock)){
+const isBlockValid = (candidateBlock: Block, previousBlock: Block): boolean => {
+  if (!Block.validateStructure(candidateBlock)) {
     return false;
-  } 
-  // Check for validity of the order of the block.
-  else if (previousBlock.index +1 !== candidateBlock.index) {
+  } else if (previousBlock.index + 1 !== candidateBlock.index) {
     return false;
-  } else if()
-}
+  } else if (previousBlock.hash !== candidateBlock.previousHash) {
+    return false;
+  } else if (getHashforBlock(candidateBlock) !== candidateBlock.hash) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
+const addBlock = (candidateBlock: Block): void => {
+  if (isBlockValid(candidateBlock, getLatestBlock())) {
+    blockchain.push(candidateBlock);
+  }
+};
+
+createNewBlock("second block");
+createNewBlock("third block");
+createNewBlock("fourth block");
+
+console.log(blockchain);
+
 
 export {};
